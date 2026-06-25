@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const Log = require("./logger");
+const knapsack = require("./knapsack");
 
 const app = express();
 app.use(express.json());
@@ -104,6 +105,65 @@ app.get("/vehicles", async (req, res) => {
 
         res.status(500).json({
             error: err.message
+        });
+    }
+});
+
+app.get("/vehicle-management-service", async (req, res) => {
+
+    try {
+
+        await Log(
+            "backend",
+            "info",
+            "route",
+            "Schedule generation started"
+        );
+
+        const vehiclesData = await fetchVehicles();
+        const depotsData = await fetchDepots();
+
+        const depots = depotsData.depots;
+        const vehicles = vehiclesData.vehicles;
+
+        const ans = [];
+
+        for (const depot of depots) {
+
+            const schedule = knapsack(
+                vehicles,
+                depot.MechanicHours
+            );
+
+            ans.push({
+                depotId: depot.ID,
+                mechanicHours: depot.MechanicHours,
+                totalImpact: schedule.totalImpact,
+                totalDuration: schedule.totalDuration,
+                selectedTasks: schedule.selectedTasks
+            });
+
+            await Log(
+                "backend",
+                "info",
+                "repository",
+                `Depot ${depot.ID} completed`
+            );
+        }
+
+        res.json(ans);
+
+    } catch (err) {
+
+        await Log(
+            "backend",
+            "error",
+            "handler",
+            err.message
+        );
+
+        res.status(500).json({
+            message: err.message
         });
     }
 });
