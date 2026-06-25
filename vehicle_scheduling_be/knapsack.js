@@ -35,5 +35,36 @@ function knapsack(tasks, mechanicHours) {
         }
     }
 
-    return dp[N][K];
+
+
+    const selectedTasks = [];
+
+        let i = N;
+        let j = K;
+
+        while (i > 0 && j > 0) {
+
+            if (dp[i][j] !== dp[i - 1][j]) {
+
+                selectedTasks.push(tasks[i - 1]);
+
+                j -= tasks[i - 1].Duration;
+            }
+
+            i--;
+        }
+
+        selectedTasks.reverse();
+
+        let totalDuration = 0;
+
+        for (const task of selectedTasks) {
+            totalDuration += task.Duration;
+        }
+
+        return {
+            totalImpact: dp[N][K],
+            totalDuration,
+            selectedTasks
+        };
 }
