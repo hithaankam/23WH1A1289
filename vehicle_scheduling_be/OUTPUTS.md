@@ -1,2 +1,7 @@
-![alt text](image.png)
-![alt text](image-1.png)
+![alt text](vehicles.png)
+![alt text](depots.png)
+![alt text](server-start.png)
+
+## Depot Data Fetcch
+![alt text](depots-local-fetch.png)
+![alt text](vehicles-local-fetch.png)
