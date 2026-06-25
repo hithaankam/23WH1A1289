@@ -68,3 +68,5 @@ function knapsack(tasks, mechanicHours) {
             selectedTasks
         };
 }
+
+module.exports = knapsack;
