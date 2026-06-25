@@ -6,5 +6,5 @@
 3. `npm install`
 4. Create a .env file in the project root:
     `TOKEN=<YOUR-TOKEN>`
-5. run `node server.js`
+5. run `node src/server.js`
 6. GET /vehicle-management-service
